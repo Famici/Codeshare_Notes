@@ -924,7 +924,7 @@ yum install vim -y
   to install it , we follow bellow steps:
    
 # Download the Splunk Enterprise tar file
-cd  /opt
+cd  /opt
 sudo yum -y install wget 
 sudo wget -O splunk-9.0.4.1-419ad9369127-Linux-x86_64.tgz "https://download.splunk.com/products/splunk/releases/9.0.4.1/linux/splunk-9.0.4.1-419ad9369127-Linux-x86_64.tgz"
 
@@ -2590,27 +2590,28 @@ module "vpc" {
 12-How do you manage sensitive data, such as passwords, in Terraform?
 13-How do you handle dependencies between Terraform resources?
 14- what is terraform module? and why is it important?
-15- have you writen a module? if yes walk me through it.
+15- have you writen a module? if yes walk me thru it.
 16-How do you handle Terraform configuration drift?
 17-What is a Terraform graph, and how can it be useful?
 18-What is the purpose of terraform init, terraform fmt, terraform validate, 
 19- how would you check the cost of your aws infrastructure in terraform?
-20-Describe an aws migration project you worked on and the role you played in it.
+20-Describe an aws migration project you worked on and the role play in it.
 21- what are some terraform blocks you know?
 22- How would you delete just one resource in terraform?
 23-How would you prevent accidental deletion of resource thru terraform destroy command.?
 24-Write a terraform code that will do below:
 - create an ec2 instance
 - get the private ip address of the ec2 into a file called serverIp.log
-- copy the file serverIP.log into the ec2 instance in /opt directory.
+- code the file serverIP.log into the ec2 instance in /opt directory.
 25- what is a provisionner in terraform?
 26- what is a null resource in terraform.
 27- how would you refference a resource that was not created using terraform in your terraform code?
 28- The team is adopting terraform as IAC tool. create a documentation on terraform best practices that will be used by the team.
 29- as part of the adoption, you are in charge of writing few modules. go ahead and write a module for:
-rds, sns, security group, ebs, ssh-key-pair for ec2, ssh-keypair for lightsail,lightsail.
+rds, sns, security group, ebs, ssh-key-pair for ec2, ssh-keypair for lightsail, lightsail.
 
 NB: add them in the repo DevOps-Terraform-code-12 in the folder module.
+  
 30- Explain what this code is for :
   import {
   to = aws_instance.demo
@@ -2708,4 +2709,190 @@ variable "parameter_group_name" {
  default = "default.mysql5.7" 
 }
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% week13 DevOps Intro
 
+aws sts get-caller-identity   #==> get user configured using aws configure command
+
+**** DeVOps Concept *****
+
+first what is SDLC ( software developement life cycle)
+requirements==> Design==> Implementation or coding ==> verification/test ==> maintenance
+
+method used:
+  - Waterfall
+  - Agile
+  - Lean
+  - DevOps
+DevOps is a sdlc that emphasize on collaboration between ops and dev
+
+DevOps is a combination of people, processes, and tools aimed at improving and 
+automating the collaboration between development and operations teams. 
+The key components of DevOps can be summarized as follows:
+
+***People: DevOps emphasizes collaboration and communication between developers, operations 
+staff, and other stakeholders. It encourages a culture of shared responsibility and 
+continuous learning.
+
+***Processes: DevOps promotes agile practices, continuous integration, continuous delivery 
+(CI/CD), and other methodologies that enable faster and more reliable software delivery. 
+It focuses on streamlining workflows, reducing bottlenecks, and improving efficiency across 
+the software development lifecycle.
+
+***Tools: Various tools are used in DevOps to automate processes, monitor performance, 
+manage infrastructure, and facilitate collaboration. These tools can include version control 
+systems (e.g., Git), continuous integration servers (e.g., Jenkins, GitLab CI/CD), 
+configuration management tools (e.g., Ansible, Puppet, Chef), containerization and 
+orchestration platforms (e.g., Docker, Kubernetes), and monitoring solutions (e.g., Prometheus, Grafana).
+
+By integrating people, processes, and tools, DevOps aims to create a culture and environment where software development and IT operations teams can work together more effectively, deliver software faster, and maintain high levels of quality and reliability.
+
+**DevOps Flow **
+plan==>code==>build==>test <==> Integration <==>release==> deploy==> operate==> monitor 
+
+***** Docker lab setup****** 
+
+cd ~
+mkdir week13
+cd week13
+git clone https://github.com/utrains/docker-Lab.git
+cd docker-Lab
+terraform init
+terraform apply --auto-approve
+
+aws ecr get-login-password --region us-east-1
+docker run -d -p 8010:80 --name utcapp 076892551558.dkr.ecr.us-east-1.amazonaws.com/utc-app-dev:latest
+
+221  cd static-app/
+  222  ls
+  223  rm -rf .git
+  224  ls
+  225  git init
+  226  git status
+  227  git add -A
+  228  git status
+  229  git commit -m "code"
+  230  git remote add origin https://github.com/kserge2001/awscicd.git
+  231  git branch -M main
+  232  git push -u origin main
+  233  history 
+  
+************************ Home for interview prep ************************
+
+1- How would you run container in the aws?
+2- what have you done with docker?
+3- what are some docker best practices?
+4- what are the cons of docker?
+5- What is the difference between monolithic and microservice application? which one is better and why?
+6- Describe the SDLC lifecycle
+7- are you familiar with agile method? please elaborate.
+8- what do you think is DevOps?
+9- what is continious integration?
+10- what is the difference between continious delivery and continious deployment?
+11- in your current company, how often do you deploy code to production?
+12- I have a piece of code describe me the whole process how you will deploy it to prod.
+13- what are the deploy strategies or patterns that you are familiar with? what have you used?
+14- when a code or artifact is ready for production what happen in your company?
+15- what is your experience building CI/CD pipeline?
+16- The developer needs to inject a username=deploy-uer and a password=PasswOrd10! in ther code.
+and it is not safe to add it in thier code. how can you help them with this issue in the pipeline?
+17- How do you troubleshoot a failure in the CI/CD pipeline?
+18- In the Dockerfile used in this project, (DockerfileProd) we can see that the base image httpd 
+is comming from dockerhub; we need to get an image base on alipene, with some package installed on it 
+and then stored in ecr. that image will then be used as a base image to avoid pulling image from docker hub.
+Go ahead and make the necessary changes. packages { vim,curl,wget} port 8000 should be opened as well.
+19-How would you add a stage in codepipeline?
+20-In the utc-app-pipeline pipeline, add a step to create a container with the image built, display the container running before the image push.
+this is just a test case to know if the image is good.
+21-what is the difference between agile kanban,scrum and scrumban?
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% week 14 
+
+
+ %%%%%%%%%%%%%%%%  Phone screening with the recruiter %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+*** recruiter intro ==> about the position, company and what he is looking for. ( focus on knowing you as a person)	
+Tell me bit about you	
+where are you located	
+are you ready to relocate	
+are you authorize to work in the US	
+are you currently employed	
+what is your company's technology stack 	
+I see in your resume that you worked on ABC can you elaborate on that?	
+any experience with JAVA?	
+any python scripting ?	
+are you ok with a hybrid position	
+any azure experience? 	
+why are you looking for a change?	
+what is your expectation for your next role ( job description )	
+what is your availability to start	
+what are your expectation as far as compensation	( what is the pay range for this role? )
+
+some tech questions given by the hiring manager:
+
+1- what is a 3 way handshake?
+2- what is a provider in terraform
+3- how do download a docker image
+4- what is permission 740
+5- what is the port for ssh, http and https
+6- how would you get all the lines with the word error in a file? 
+
+Question you can ask: 
+
+what does the interview process look like? how many rounds... any take-home project? 	
+anything that I should be aware of ? i mean give me a tips to successfully pass the interview?	
+when can I expect the next round to be scheduled?	
+
+%%%%%%%%%%%%%%%%%%%    Hiring Manager     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Technical skills: ( can be learned by everybody )
+*** The knowledge and understanding around the skilset in your RESUME.
+Linux 
+Docker:
+Scripting: 
+CI/CD
+Jenkins: 
+Ansible:
+eks:
+IaC: ==>Terraform
+Monitoring:
+Production support?
+Troubleshooting? ( thought process )
+
+Cloud: 
+CLI: 
+  
+Did you manage ?
+Engineer those solutions? 
+walk me through the process of  ... ( details explaination )
+Problem solving skills:
+  scenario base questions: 
+
+Cultural fit ( soft skill ):
+  conflict:
+  work under pressure:
+  adapt to change 
+  leadership 
+  How do you relate to others?
+  what will your colleague say about you?
+  what do you think you have that is unique
+  what would you do if you had super power
+  How do you prioritise your work 
+
+Communication and cross functional team collaboration:
+  project done in collaboration
+
+QUestions for hiring:
+  get questions from what was discussed:
+  Understand the team culture  
+  Understand different technologies used in the team
+  Understand expectation in the next 15 to 30 day
+  Hiring manager profile
+  
+%%%%%%%%%%%%%%%%%%%%%%%%% Technical interview %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Listen carefully to the questions:
+  ask for clarification if needed
+Build your answer:
+  take time to respond
+Know how to not explain what you dont know.
+and do your homework ( build these solutions in preparation)
+                         
